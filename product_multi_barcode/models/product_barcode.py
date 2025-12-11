@@ -51,9 +51,12 @@ class ProductBarcode(models.Model):
     @api.constrains("name")
     def _check_duplicates(self):
         for record in self:
+            if not record.name:
+                continue
             barcodes = self.search(
                 [("id", "!=", record.id), ("name", "=", record.name)]
             )
+            barcodes = barcodes.filtered(lambda b: b.product_tmpl_id.company_id == record.product_tmpl_id.company_id)
             if barcodes:
                 raise UserError(
                     _(

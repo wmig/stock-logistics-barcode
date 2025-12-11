@@ -30,7 +30,7 @@ class ProductProduct(models.Model):
 
     def _inverse_barcode(self):
         for product in self:
-            if product.barcode_ids:
+            if product.barcode_ids and product.barcode:
                 product.barcode_ids[:1].write({"name": product.barcode})
             elif not product.barcode:
                 product.barcode_ids.unlink()
