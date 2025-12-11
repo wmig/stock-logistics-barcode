@@ -56,7 +56,7 @@ class ProductBarcode(models.Model):
             barcodes = self.search(
                 [("id", "!=", record.id), ("name", "=", record.name)]
             )
-            barcodes = barcodes.filtered(lambda b: b.product_tmpl_id.company_id == record.product_tmpl_id.company_id)
+            barcodes = barcodes.sudo().filtered(lambda b: b.product_tmpl_id.company_id == record.product_tmpl_id.company_id)
             if barcodes:
                 raise UserError(
                     _(
